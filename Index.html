@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f2f2f2;
+    }
+    .container {
+      background-color: #e6e6e6;
+      padding: 20px;
+      margin-top: 50px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+  </style>
+  <title>Calculadora de IMC e Gordura Corporal</title>
+</head>
+<body>
+  <div class="container">
+    <h1>Calculadora de IMC e Gordura Corporal</h1>
+    <form id="calcForm">
+      <div class="form-group">
+        <label for="weight">Peso (kg):</label>
+        <input type="number" class="form-control" id="weight" required>
+      </div>
+      <div class="form-group">
+        <label for="height">Altura (m):</label>
+        <input type="number" step="0.01" class="form-control" id="height" required>
+      </div>
+      <div class="form-group">
+        <label for="gender">Gênero:</label>
+        <select id="gender" class="form-control">
+          <option value="male">Masculino</option>
+          <option value="female">Feminino</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary">Calcular</button>
+    </form>
+    <div id="result"></div>
+  </div>
+  <script>
+    document.getElementById('calcForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      var weight = parseFloat(document.getElementById('weight').value);
+      var height = parseFloat(document.getElementById('height').value);
+      var gender = document.getElementById('gender').value;
+      
+      var imc, fatPercentage;
+      if (gender === 'male') {
+        imc = weight / (height * height);
+        fatPercentage = (1.2 * imc) + (0.23 * 25) - 10.8 - 5.4;
+      } else {
+        imc = weight / (height * height);
+        fatPercentage = (1.2 * imc) + (0.23 * 25) - 5.4;
+      }
+
+      var result = "<h2>Resultado:</h2>";
+      result += "<p>Seu IMC é: " + imc.toFixed(2) + "</p>";
+      result += "<p>Sua taxa de gordura corporal é: " + fatPercentage.toFixed(2) + "%</p>";
+      if (imc < 18.5) {
+        result += "<p>IMC abaixo do normal</p>";
+      } else if (imc >= 18.5 && imc < 24.9) {
+        result += "<p>IMC normal</p>";
+      } else if (imc >= 24.9 && imc < 29.9) {
+        result += "<p>IMC elevado</p>";
+      } else {
+        result += "<p>IMC muito elevado</p>";
+      }
+
+      document.getElementById('result').innerHTML = result;
+    });
+  </script>
+</body>
+</html>
